@@ -36,9 +36,6 @@ def generate():
                 try:
                     for chunk in client.generate(prompt, model=model, stream=True):
                         yield f"data: {json.dumps({'chunk': chunk})}\n\n"
-                        # Detect client disconnect (works in dev server)
-                        if request.environ.get('werkzeug.server.shutdown') is not None:
-                            break
                 except (GeneratorExit, ConnectionError):
                     # Client disconnected, stop streaming
                     return
