@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ollama Chat Client</title>
+    <title>OSpitter</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <style>
@@ -25,11 +25,12 @@
 
         .container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 800px;
-            height: 80vh;
+            border-radius: 0;
+            box-shadow: none;
+            width: 100vw;
+            max-width: 100vw;
+            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -57,6 +58,8 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            min-height: 0;
+            overflow-y: auto;
         }
 
         .messages {
@@ -104,6 +107,9 @@
             padding: 20px;
             background: white;
             border-top: 1px solid #e1e5e9;
+            position: sticky;
+            bottom: 0;
+            z-index: 2;
         }
 
         .controls {
@@ -254,7 +260,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 Ollama Chat Client</h1>
+            <div style="display:flex;align-items:center;justify-content:center;gap:18px;flex-direction:column;">
+              
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:8px;">
+                  <ellipse cx="32" cy="32" rx="30" ry="28" fill="#fff" stroke="#764ba2" stroke-width="4"/>
+                  <ellipse cx="32" cy="32" rx="22" ry="20" fill="#f8f9fa" stroke="#667eea" stroke-width="2"/>
+                  <path d="M20 40 Q32 48 44 40" stroke="#764ba2" stroke-width="3" fill="none"/>
+                  <ellipse cx="24" cy="28" rx="3" ry="4" fill="#764ba2"/>
+                  <ellipse cx="40" cy="28" rx="3" ry="4" fill="#764ba2"/>
+                  <ellipse cx="32" cy="36" rx="2" ry="1.5" fill="#667eea"/>
+                  <path d="M32 44 Q34 46 36 44" stroke="#667eea" stroke-width="2" fill="none"/>
+                  <path d="M48 38 Q54 36 52 32 Q50 28 44 30" stroke="#667eea" stroke-width="2" fill="none"/>
+                  <path d="M16 38 Q10 36 12 32 Q14 28 20 30" stroke="#667eea" stroke-width="2" fill="none"/>
+                </svg>
+                <h1 style="font-size:32px;">OSpitter</h1>
+            </div>
             <p>Powered by your local AI models</p>
         </div>
         
