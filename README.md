@@ -41,12 +41,12 @@ ollama-spitter/
 
 - **Purpose:** Automate message handling and integrate with external systems using webhooks.
 - **Main Workflow:**
-  - Trigger: Webhook node (`/webhook/ecdd5670-8efa-462d-9694-c83178f14319`)
+  - Trigger: Webhook node (`/webhook/92ee3410-13d0-4574-abec-2b32dbebafea`)
   - Processing: Agent node (guides user, processes input)
   - Response: Respond to Webhook node (returns result)
 - **How to Trigger:**
-  - Send a POST request to `https://n8n.tangikuu.space/webhook/ecdd5670-8efa-462d-9694-c83178f14319`
-  - Example: `curl -X POST https://n8n.tangikuu.space/webhook/ecdd5670-8efa-462d-9694-c83178f14319 -H "Content-Type: application/json" -d '{"chatInput":"Hello!"}'`
+  - Send a POST request to `https://n8n.tangikuu.space/webhook/92ee3410-13d0-4574-abec-2b32dbebafea`
+  - Example: `curl -X POST https://n8n.tangikuu.space/webhook/92ee3410-13d0-4574-abec-2b32dbebafea -H "Content-Type: application/json" -d '{"chatInput":"Hello!"}'`
 - **Integration:**
   - n8n can send HTTP requests to OSpitter at `http://192.168.110.90:5000/api/generate` using an HTTP Request node.
 
@@ -116,7 +116,7 @@ Enjoy chatting with your local AI llama and automating with n8n!
 
 - **Send a test webhook request:**
   ```bash
-  curl -X POST https://n8n.tangikuu.space/webhook/ecdd5670-8efa-462d-9694-c83178f14319 \
+  curl -X POST https://n8n.tangikuu.space/webhook/92ee3410-13d0-4574-abec-2b32dbebafea \
     -H "Content-Type: application/json" \
     -d '{"chatInput":"Hello from n8n!"}'
   ```
@@ -148,7 +148,7 @@ Enjoy chatting with your local AI llama and automating with n8n!
 ### 4. Example End-to-End Test
 
 1. Start the Flask app and n8n workflow.
-2. Send a POST to the n8n webhook URL with `{"chatInput":"Test integration"}`.
+2. Send a POST to the n8n webhook URL with `{"chatInput":"Test integration"}` (use `https://n8n.tangikuu.space/webhook/92ee3410-13d0-4574-abec-2b32dbebafea`).
 3. n8n processes the message, optionally sends it to OSpitter, and returns the AI response.
 4. Check logs and responses for errors or unexpected results.
 
