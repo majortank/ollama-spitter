@@ -1,87 +1,84 @@
-# OSpitter
 
-OSpitter is a modern, full-stack web client for interacting with local Ollama models. It features a beautiful chat interface, Markdown and LaTeX rendering, code highlighting, streaming/non-streaming support, and a fun spitting llama theme.
+# OSpitter + n8n Webhook Integration
 
-## Features
-
-- **Chat with Ollama models**: Send prompts and receive AI-generated responses.
-- **Streaming & Non-Streaming**: Choose between real-time streaming or full-response modes.
-- **Markdown & LaTeX Support**: Render Markdown and math formulas in responses.
-- **Code Syntax Highlighting**: Beautifully formatted code blocks.
-- **SVG & Web Content Rendering**: Supports SVG and web content in responses.
-- **Conversation Turn Limit**: Prevent runaway sessions (default: 20 turns).
-- **Stop Button**: Interrupt generation at any time.
-- **Sticky Input Area**: Input stays visible as chat grows.
-- **Mobile Responsive**: Works well on desktop and mobile.
-- **Fun Branding**: Spitting llama logo and playful theme.
-
-## Screenshots
-
-![OSpitter UI](docs/osplitter-screenshot.png) <!-- Add screenshot if available -->
-
-## Getting Started
-
-### Prerequisites
-- Python 3.8+
-- Ollama installed and running locally
-- pip (Python package manager)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ospitter.git
-   cd ospitter
-   ```
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Start the Flask server**
-   ```bash
-   python app.py
-   ```
-   The app will run on `http://localhost:5000` by default.
-
-### Configuration
-- **Model Selection**: Choose from available models in the dropdown (e.g., `smollm2:latest`, `llama2`, `codellama`).
-- **Turn Limit**: Default is 20 turns per session. Change `TURN_LIMIT` in app.py to adjust.
-
-## Usage
-
-- Open your browser and go to `http://localhost:5000`.
-- Type your prompt and select a model.
-- Use the stop button to interrupt long generations.
-- Enjoy Markdown, LaTeX, and code rendering in responses.
+This project combines a Flask-based chat client for local Ollama models (OSpitter) with an n8n workflow for flexible automation and external integrations using webhooks.
 
 ## Project Structure
 
 ```
-app.py                  # Flask backend
-ollama_client.py        # Ollama API client
-requirements.txt        # Python dependencies
-/templates/index.html   # Frontend UI
-/static/                # (Optional) Static assets
+ollama-spitter/
+├── app.py                  # Flask backend for OSpitter
+├── ollama_client.py        # Ollama API client
+├── requirements.txt        # Python dependencies
+├── templates/
+│   └── index.html          # Frontend UI for OSpitter
+├── n8n-webhook-workflow/
+│   ├── src/
+│   │   ├── workflow.json   # Main n8n workflow (Webhook → Agent → Respond)
+│   │   └── webhooks/
+│   │       ├── receiveMessageWebhook.json # Webhook trigger node config
+│   │       └── respondMessageWebhook.json # Webhook response node config
+│   └── README.md           # n8n workflow documentation
+└── README.md               # Main project documentation
 ```
 
-## Customization
-- **Branding**: Edit index.html to change logo, colors, or layout.
-- **Models**: Update `/api/models` endpoint in app.py to list your installed models.
-- **Frontend Libraries**: Uses CDN for marked.js, KaTeX, and highlight.js.
+## OSpitter (Flask App)
+
+- **Purpose:** Chat with local Ollama models using a modern web UI.
+- **Features:**
+  - Markdown, LaTeX, code highlighting
+  - Streaming and non-streaming responses
+  - Conversation turn limit
+  - Fun llama branding
+- **API Endpoint:**
+  - `POST /api/generate` — Send `{ "prompt": "...", "model": "...", "stream": true|false }`
+  - Example: `curl -X POST http://192.168.110.90:5000/api/generate -H "Content-Type: application/json" -d '{"prompt":"Hello!","model":"smollm2:latest","stream":false}'`
+- **Configuration:**
+  - Host: `0.0.0.0` (accessible on local network)
+  - Default port: `5000`
+
+## n8n Webhook Workflow
+
+- **Purpose:** Automate message handling and integrate with external systems using webhooks.
+- **Main Workflow:**
+  - Trigger: Webhook node (`/webhook/ecdd5670-8efa-462d-9694-c83178f14319`)
+  - Processing: Agent node (guides user, processes input)
+  - Response: Respond to Webhook node (returns result)
+- **How to Trigger:**
+  - Send a POST request to `https://n8n.tangikuu.space/webhook/ecdd5670-8efa-462d-9694-c83178f14319`
+  - Example: `curl -X POST https://n8n.tangikuu.space/webhook/ecdd5670-8efa-462d-9694-c83178f14319 -H "Content-Type: application/json" -d '{"chatInput":"Hello!"}'`
+- **Integration:**
+  - n8n can send HTTP requests to OSpitter at `http://192.168.110.90:5000/api/generate` using an HTTP Request node.
+
+## Setup Instructions
+
+### OSpitter (Flask App)
+1. Install Python 3.8+ and pip.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Start the Flask server:
+   ```bash
+   python app.py
+   ```
+   The app will run on `http://192.168.110.90:5000`.
+
+### n8n Workflow
+1. Install n8n (see [n8n docs](https://docs.n8n.io/getting-started/installation/)).
+2. Import `n8n-webhook-workflow/src/workflow.json` in the n8n editor.
+3. Activate the workflow to enable webhooks.
+4. Test by sending a POST request to the webhook URL.
 
 ## Troubleshooting
-- **Ollama not responding**: Ensure Ollama is running locally and models are available.
-- **Streaming issues**: Some browsers may handle streaming differently; use non-streaming mode if needed.
-- **Session expired**: Refresh the page to start a new session if turn limit is reached.
-
-## License
-MIT License
+- **Webhook Error:** Ensure the n8n workflow is active and the webhook path matches.
+- **Network Issues:** Make sure n8n can reach the Flask app at `192.168.110.90:5000` (check firewall and network settings).
+- **Response Issues:** The Agent node should output its result in a field called `response` for the Respond node.
 
 ## Credits
+- Built with Flask, n8n, and Ollama
 - Llama emoji: Unicode
 - SVG logo: Custom
-- Built with Flask, marked.js, KaTeX, highlight.js
 
 ---
-
-Enjoy chatting with your local AI llama!
+Enjoy chatting with your local AI llama and automating with n8n!

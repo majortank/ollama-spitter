@@ -1,0 +1,33 @@
+{
+  "name": "Respond Message Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "responseMode": "lastNode",
+        "responseData": "={{$json[\"response\"]}}",
+        "options": {}
+      },
+      "id": "respondMessageNode",
+      "name": "Respond to Message",
+      "type": "n8n-nodes-base.httpResponse",
+      "typeVersion": 1,
+      "position": [
+        300,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Respond to Message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

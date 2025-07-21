@@ -1,0 +1,22 @@
+{
+  "name": "Receive Message Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "receive-message",
+        "options": {}
+      },
+      "id": "webhook-receive-message",
+      "name": "Receive Message Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "ecdd5670-8efa-462d-9694-c83178f14319"
+    }
+  ],
+  "connections": {}
+}
